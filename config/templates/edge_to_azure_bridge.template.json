@@ -1,0 +1,47 @@
+{
+    "edge_to_azure_bridge": {
+        "version": "1.0",
+        "type": "docker",
+        "status": "running",
+        "restartPolicy": "always",
+        "env": { },
+        "settings": {
+            "image": "edge_to_azure_bridge:latest",
+            "createOptions": {
+                "User": "${EII_UID}",
+                "Env": [
+                    "AppName=EdgeToAzureBridge",
+                    "DEV_MODE=$DEV_MODE",
+                    "PROFILING_MODE=$PROFILING_MODE",
+                    "ETCD_HOST=$ETCD_HOST",
+                    "SUBSCRIBER_ENDPOINT=$HOST_IP:65013",
+                    "no_proxy=localhost,127.0.0.1,$ETCD_HOST,azureblobstorageoniotedge",
+                    "CONFIGMGR_CACERT=/run/secrets/rootca/cacert.pem",
+                    "CONFIGMGR_KEY=/run/secrets/EdgeToAzureBridge/EdgeToAzureBridge_client_key.pem",
+                    "CONFIGMGR_CERT=/run/secrets/EdgeToAzureBridge/EdgeToAzureBridge_client_certificate.pem"
+                ],
+                "Volumes": {
+                    "/EII/sockets": {}
+                },
+                "HostConfig": {
+                    "ReadonlyRootfs": true,
+                    "Binds": [
+                        "$EII_INSTALL_PATH/sockets:/EII/sockets:rw",
+                        "$EII_CERTIFICATES/rootca:/run/secrets/rootca",
+                        "$EII_CERTIFICATES/root:/run/secrets/root",
+                        "$EII_CERTIFICATES/EdgeToAzureBridge:/run/secrets/EdgeToAzureBridge"
+                    ]
+                }
+            }
+        }
+    },
+    "properties.desired": {
+        "log_level": "INFO",
+        "topics": {
+            "edge_video_analytics_results": {
+                "az_output_topic": "edge_video_analytics_results"
+            }
+        },
+        "eii_config": "{}"
+    }
+}

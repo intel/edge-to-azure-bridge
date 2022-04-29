@@ -1,0 +1,20 @@
+{
+    "SimpleSubscriber": {
+        "version": "1.0",
+        "type": "docker",
+        "status": "running",
+        "restartPolicy": "always",
+        "settings": {
+            "image": "${DOCKER_REGISTRY}openedgeinsights/ia_azure_simple_subscriber:${EII_VERSION}",
+            "createOptions": {
+                "User": "${EII_UID}",
+                "HostConfig": {
+                    "ReadonlyRootfs": true
+                }
+            }
+        }
+    },
+    "routes": {
+        "BridgeToSimpleSubscriber": "FROM /messages/modules/EdgeToAzureBridge/outputs/* INTO BrokeredEndpoint(\"/modules/SimpleSubscriber/inputs/input1\")"
+    }
+}

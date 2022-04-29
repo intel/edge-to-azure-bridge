@@ -1,0 +1,9 @@
+{
+    "properties": {
+      "objects": {
+        "description": "The unique identifier for a inference metadata.",
+        "type": "array"
+      }
+    },
+    "required": [ "objects" ]
+  }

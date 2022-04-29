@@ -1,0 +1,18 @@
+{
+    "config": {
+      "cert_type": ["zmq"]
+    },
+    "interfaces": {
+        "Subscribers": [
+            {
+                "Name": "default",
+                "Type": "zmq_tcp",
+                "EndPoint": "edge_video_analytics_microservice:65114",
+                "PublisherAppName": "EdgeVideoAnalyticsMicroservice",
+                "Topics": [
+                    "edge_video_analytics_results"
+                ]
+            }
+        ]
+    }
+}

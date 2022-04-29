@@ -1,0 +1,5 @@
+{
+    "topics": ["topic1", "topic2", "vaserving"],
+    "BrokerHost": "MQTTBroker",
+    "BrokerPort": 1883
+}

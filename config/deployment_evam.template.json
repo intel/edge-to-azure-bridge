@@ -1,0 +1,97 @@
+{
+    "modulesContent": {
+        "$edgeAgent": {
+            "properties.desired": {
+                "modules": {
+                    "EdgeVideoAnalyticsMicroservice": {
+                        "settings": {
+                            "image": "intel/edge_video_analytics_microservice:0.7.0",
+                            "createOptions": "{\"ExposedPorts\":{\"8080/tcp\":{},\"8554/tcp\":{}},\"HostConfig\":{\"Binds\":[\"EVAM_RESOURCES/models:/app/models\",\"EVAM_RESOURCES/pipelines:/app/pipelines\",\"EVAM_RESOURCES/resources:/app/resources\",\"/tmp/:/tmp/\"],\"PortBindings\":{\"8080/tcp\":[{\"HostPort\":\"8080\"}],\"8554/tcp\":[{\"HostPort\":\"8554\"}]}}}"
+                        },
+                        "type": "docker",
+                        "version": "1.0",
+                        "env": {
+                            "RTSP_PORT": {
+                                "value": 8554
+                            },
+                            "RUN_MODE": {
+                                "value": "EVA"
+                            },
+                            "ENABLE_RTSP": {
+                                "value": true
+                            }
+                        },
+                        "status": "running",
+                        "restartPolicy": "always"
+                    },
+                    "MQTTBroker": {
+                        "settings": {
+                            "image": "eclipse-mosquitto:latest",
+                            "createOptions": "{\"HostConfig\":{\"Binds\":[\"EDGE_TO_AZURE_BRIDGE_RESOURCES/mosquitto/:/mosquitto/config\"],\"PortBindings\":{\"1883/tcp\":[{\"HostPort\":\"1883\"}]}}}"
+                        },
+                        "type": "docker",
+                        "version": "1.0",
+                        "status": "running",
+                        "restartPolicy": "always"
+                    },
+                    "EdgeToAzureBridge": {
+                        "settings": {
+                            "image": "edge_to_azure_bridge:latest",
+                            "createOptions": "{\"HostConfig\":{\"Binds\":[\"EDGE_TO_AZURE_BRIDGE_RESOURCES/mosquitto.json:/app/mosquitto.json\", \"EDGE_TO_AZURE_BRIDGE_RESOURCES/schema.json:/app/schema.json\"]}}"
+                        },
+                        "type": "docker",
+                        "version": "1.0",
+                        "imagePullPolicy": "never",
+                        "status": "running",
+                        "restartPolicy": "always"
+                    }
+                },
+                "runtime": {
+                    "settings": {
+                        "minDockerVersion": "v1.25"
+                    },
+                    "type": "docker"
+                },
+                "schemaVersion": "1.1",
+                "systemModules": {
+                    "edgeAgent": {
+                        "settings": {
+                            "image": "mcr.microsoft.com/azureiotedge-agent:1.2",
+                            "createOptions": "{}"
+                        },
+                        "type": "docker"
+                    },
+                    "edgeHub": {
+                        "settings": {
+                            "image": "mcr.microsoft.com/azureiotedge-hub:1.2",
+                            "createOptions": "{\"HostConfig\":{\"PortBindings\":{\"5671/tcp\":[{\"HostPort\":\"5671\"}],\"8883/tcp\":[{\"HostPort\":\"8883\"}],\"443/tcp\":[{\"HostPort\":\"443\"}]}}}"
+                        },
+                        "type": "docker",
+                        "status": "running",
+                        "restartPolicy": "always"
+                    }
+                }
+            }
+        },
+        "$edgeHub": {
+            "properties.desired": {
+                "routes": {
+                    "Upstream": "FROM /messages/* INTO $upstream"
+                },
+                "schemaVersion": "1.1",
+                "storeAndForwardConfiguration": {
+                    "timeToLiveSecs": 7200
+                }
+            }
+        },
+        "EdgeVideoAnalyticsMicroservice": {
+            "properties.desired": {}
+        },
+        "MQTTBroker": {
+            "properties.desired": {}
+        },
+        "EdgeToAzureBridge": {
+            "properties.desired": {}
+        }
+    }
+}
