@@ -60,7 +60,7 @@ for service in args.services:
         template = json.load(f)
 
     # Add some custom properties based on the selected services
-    if service == 'EdgeToAzureBridge':
+    if service == 'edge_to_azure_bridge':
         if 'AzureBlobStorageonIoTEdge' in args.services:
             template[service]['env'] = {
                 'AZURE_STORAGE_CONNECTION_STRING': {
