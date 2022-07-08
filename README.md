@@ -14,7 +14,7 @@
 
 ## Introduction
 
-Edge-to-Cloud Bridge for Microsoft Azure* service connects to publishers (MQTT Broker, OEI Message Bus) and sends data to Azure IOT Hub.
+Edge-to-Cloud Bridge for Microsoft Azure* service connects to publishers (MQTT Broker, OEI Message Bus) and sends data to Azure IOT Hub. This repository contains the source code for Edge-to-Cloud Bridge for Microsoft Azure* service. For information on how to build the use case, refer to the [Get Started guide](https://www.intel.com/content/www/us/en/developer/articles/technical/edge-to-cloud-bridge-for-microsoft-azure-service.html).
 
 > NOTE: Currently, the microservice works in an open network only.
 
@@ -29,7 +29,7 @@ Edge-to-Cloud Bridge for Microsoft Azure* service connects to publishers (MQTT B
 - To build the base image, run the following command
      `docker-compose -f docker-compose-build.yml build`
 
-- You can download the pre-built container image for Edge-to-Cloud Bridge for Microsoft Azure* service from [Link to be added](https://hub.docker.com/r/intel/edge_video_analytics_microservice)
+- You can download the pre-built container image for Edge-to-Cloud Bridge for Microsoft Azure* service from [Docker Hub](https://hub.docker.com/r/intel/edge_to_azure_bridge)
 
 ## Running in OEI mode
 
