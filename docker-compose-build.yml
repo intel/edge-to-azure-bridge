@@ -27,13 +27,13 @@ version: '3.6'
 services:
     # Edge-to-Cloud Bridge for Microsoft Azure* service
     edge_to_azure_bridge:
-        image: edge_to_azure_bridge:latest
+        image: edge_to_azure_bridge:v2022.2.0
         build:
             context: $PWD/modules/EdgeToAzureBridge/
             dockerfile: $PWD/modules/EdgeToAzureBridge/Dockerfile
             args:
                   UBUNTU_IMAGE_VERSION: "20.04"
-                  EII_VERSION: "v3.0"
+                  EII_VERSION: "3.0.0"
                   EII_UID: 1999
                   EII_USER_NAME: "eiiuser"
                   EII_SOCKET_DIR: "/opt/intel/eii/sockets"
@@ -41,6 +41,7 @@ services:
                   CMAKE_BUILD_TYPE: "Release"
                   CMAKE_INSTALL_PREFIX: "/usr/local"
                   RUN_TESTS: "OFF"
+                  PKG_SRC: "https://github.com/open-edge-insights/eii-manifests/releases/download/v3.0"
         ipc: "none"
         security_opt:
         - no-new-privileges

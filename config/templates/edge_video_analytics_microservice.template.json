@@ -5,7 +5,7 @@
         "status": "running",
         "restartPolicy": "always",
         "settings": {
-            "image": "intel/edge_video_analytics_microservice:0.7.0",
+            "image": "${DOCKER_REGISTRY}intel/edge_video_analytics_microservice:latest",
             "createOptions": {
                 "Hostname": "EdgeVideoAnalyticsMicroservice",
                 "Env": [
@@ -19,11 +19,7 @@
                     "PUBLISHER_ENDPOINT=0.0.0.0:65013",
                     "AML_TENANT_ID=$AML_TENANT_ID",
                     "AML_PRINCIPAL_ID=$AML_PRINCIPAL_ID",
-                    "AML_PRINCIPAL_PASS=$AML_PRINCIPAL_PASS",
-                    "CONFIGMGR_CACERT=/run/secrets/rootca/cacert.pem",
-                    "CONFIGMGR_KEY=/run/secrets/EdgeVideoAnalyticsMicroservice/EdgeVideoAnalyticsMicroservice_client_key.pem",
-                    "CONFIGMGR_CERT=/run/secrets/EdgeVideoAnalyticsMicroservice/EdgeVideoAnalyticsMicroservice_client_certificate.pem"
-
+                    "AML_PRINCIPAL_PASS=$AML_PRINCIPAL_PASS"
                 ],
                 "NetworkingConfig": {
                     "EndpointsConfig": {
@@ -48,9 +44,9 @@
                         "$EII_INSTALL_PATH/sockets:/EII/sockets:rw",
                         "/var/tmp:/var/tmp:rw",
                         "/tmp:/tmp:rw",
-                        "$PWD/../../IEdgeInsights/EdgeVideoAnalyticsMicroservice/eii/pipelines:/app/pipelines/",
+                        "$PWD/../EdgeVideoAnalyticsMicroservice/eii/pipelines:/home/pipeline-server/pipelines/",
+                        "$PWD/../EdgeVideoAnalyticsMicroservice/resources:/home/pipeline-server/resources/",
                         "/opt/intel/eii/models/:/app/models/",
-                        "$EII_CERTIFICATES/rootca:/run/secrets/rootca",
                         "$EII_CERTIFICATES/EdgeVideoAnalyticsMicroservice:/run/secrets/EdgeVideoAnalyticsMicroservice"
                     ],
                     "LogConfig": {

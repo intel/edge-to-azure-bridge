@@ -129,7 +129,8 @@ async def emb_subscriber_listener(bs, subscriber, output_name, container_name):
                         loop=loop)
                     fut.add_done_callback(upload_frame_done)
                 except Exception:
-                    log.error(f'Failed to upload blob: {tb.format_exc()}')
+                    #log.error(f'Failed to upload blob: {tb.format_exc()}')
+                    log.error(f'Failed to upload blob')
 
             if blob is not None:
                 # Free the blob early (might be a lot of memory)
@@ -143,4 +144,6 @@ async def emb_subscriber_listener(bs, subscriber, output_name, container_name):
     except asyncio.CancelledError:
         log.info('Subscriber routine cancelled')
     except Exception:
-        log.error(f'Unexpected error in listener: {tb.format_exc()}')
+        #log.error(f'Unexpected error in listener: {tb.format_exc()}')
+        log.error(f'Unexpected error in listener')
+        

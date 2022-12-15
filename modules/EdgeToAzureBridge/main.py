@@ -22,6 +22,7 @@
 """
 import asyncio
 import traceback as tb
+import logging
 from eab.bridge_state import BridgeState
 from eab.mqtt_bridge import MQTTConnect
 
@@ -29,6 +30,7 @@ from eab.mqtt_bridge import MQTTConnect
 def main():
     """Main method.
     """
+    log = logging.getLogger(__name__)
     bs = None
     connect = None
     try:
@@ -36,7 +38,8 @@ def main():
         loop = asyncio.get_event_loop()
         loop.run_forever()
     except Exception as e:
-        print(f'[ERROR] {e}\n{tb.format_exc()}')
+        #print(f'[ERROR] {e}\n{tb.format_exc()}')
+        log.error(f'[ERROR] Critical Error has occured in bridge module, ending connection')
         if bs is not None:
             # Fully stop the bridge
             bs.stop()
@@ -48,7 +51,8 @@ def main():
         except Exception as e:
             if connect is not None:
                 connect.stop()
-            print(f'[ERROR] {e}\n{tb.format_exc()}')
+            #print(f'[ERROR] {e}\n{tb.format_exc()}')
+            log.error(f'[ERROR] Critical Error has occured in MQTT module, ending connection')
 
         raise
 
