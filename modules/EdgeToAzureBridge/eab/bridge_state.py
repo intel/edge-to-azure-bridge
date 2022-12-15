@@ -41,6 +41,10 @@ import cfgmgr.config_manager as cfg
 from util.log import configure_logging
 from util.util import Util
 
+# callback function gets called upon watch notification on <key>
+def callback_func(key, json):
+    print('key {} has been updated, restarting the service'.format(key))
+    sys.exit(0)
 
 class BridgeState:
     """Singleton containing the state of the Azure Bridge.
@@ -113,6 +117,10 @@ class BridgeState:
 
         try:
             self.config_mgr = cfg.ConfigMgr()
+            watch_cfg = self.config_mgr.get_watch_obj()
+            key_to_watch = '/' + os.environ['AppName'] + '/'
+            # Watch on key /<AppName>
+            watch_cfg.watch_prefix(key_to_watch, callback_func)
             self.dev_mode = self.config_mgr.is_dev_mode()
             self.app_name = self.config_mgr.get_app_name()
         except Exception as ex:

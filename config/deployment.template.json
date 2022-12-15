@@ -6,7 +6,7 @@
                     "MQTTBroker": {
                         "settings": {
                             "image": "eclipse-mosquitto:latest",
-                            "createOptions": "{\"HostConfig\":{\"Binds\":[\"EDGE_TO_AZURE_BRIDGE_RESOURCES/mosquitto/:/mosquitto/config\"],\"PortBindings\":{\"1883/tcp\":[{\"HostPort\":\"1883\"}]}}}"
+                            "createOptions": "{\"HostConfig\":{\"Memory\":536870912,\"MemorySwap\":1073741824,\"CpuShares\":1000,\"ReadonlyRootfs\":true,\"Binds\":[\"EDGE_TO_AZURE_BRIDGE_RESOURCES/mosquitto/:/mosquitto/config\"]}}"
                         },
                         "type": "docker",
                         "version": "1.0",
@@ -16,7 +16,7 @@
                     "EdgeToAzureBridge": {
                         "settings": {
                             "image": "edge_to_azure_bridge:latest",
-                            "createOptions": "{\"HostConfig\":{\"Binds\":[\"EDGE_TO_AZURE_BRIDGE_RESOURCES/mosquitto.json:/app/mosquitto.json\", \"EDGE_TO_AZURE_BRIDGE_RESOURCES/schema.json:/app/schema.json\"]}}"
+                            "createOptions": "{\"HostConfig\":{\"Memory\":536870912,\"MemorySwap\":1073741824,\"CpuShares\":1000,\"ReadonlyRootfs\":true,\"Binds\":[\"EDGE_TO_AZURE_BRIDGE_RESOURCES/mosquitto.json:/app/mosquitto.json\", \"EDGE_TO_AZURE_BRIDGE_RESOURCES/schema.json:/app/schema.json\"]}}"
                         },
                         "type": "docker",
                         "version": "1.0",
@@ -36,14 +36,14 @@
                     "edgeAgent": {
                         "settings": {
                             "image": "mcr.microsoft.com/azureiotedge-agent:1.2",
-                            "createOptions": "{}"
+                            "createOptions": "{\"HostConfig\":{\"Memory\":536870912,\"MemorySwap\":1073741824,\"CpuShares\":1000}}"
                         },
                         "type": "docker"
                     },
                     "edgeHub": {
                         "settings": {
                             "image": "mcr.microsoft.com/azureiotedge-hub:1.2",
-                            "createOptions": "{\"HostConfig\":{\"PortBindings\":{\"5671/tcp\":[{\"HostPort\":\"5671\"}],\"8883/tcp\":[{\"HostPort\":\"8883\"}],\"443/tcp\":[{\"HostPort\":\"443\"}]}}}"
+                            "createOptions": "{\"HostConfig\":{\"Memory\":536870912,\"MemorySwap\":1073741824,\"CpuShares\":1000,\"PortBindings\":{\"5671/tcp\":[{\"HostPort\":\"5671\"}],\"8883/tcp\":[{\"HostPort\":\"8883\"}],\"443/tcp\":[{\"HostPort\":\"443\"}]}}"
                         },
                         "type": "docker",
                         "status": "running",

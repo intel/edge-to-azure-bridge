@@ -47,13 +47,22 @@ ap.add_argument('-d', '--dev-mode', default=False, action='store_true',
                 help='Whether or not services running in dev mode')
 args = ap.parse_args()
 
+if not isinstance(args.services, str):
+    raise AssertionError('{} is not a string'.format(args.services))
+else:
+    argServices = args.services
+if not isinstance(args.deployment_name, str):
+    raise AssertionError('{} is not a string'.format(args.deployment_name))
+else:
+    argDeploymentName = args.deployment_name
+
 
 print('[INFO] Loading base manifest')
 with open(os.path.join(TEMPLATES_DIR, 'base.template.json'), 'r') as f:
     base_manifest = json.load(f)
 
 
-for service in args.services:
+for service in argServices:
     print(f'[INFO] Populating template for {service}')
     fn = os.path.join(TEMPLATES_DIR, f'{service}.template.json')
     with open(fn, 'r') as f:
@@ -61,7 +70,7 @@ for service in args.services:
 
     # Add some custom properties based on the selected services
     if service == 'edge_to_azure_bridge':
-        if 'AzureBlobStorageonIoTEdge' in args.services:
+        if 'AzureBlobStorageonIoTEdge' in argServices:
             template[service]['env'] = {
                 'AZURE_STORAGE_CONNECTION_STRING': {
                     "value": (
@@ -100,7 +109,7 @@ for service in args.services:
             'properties.desired': props
         }
 
-output_fn = f'{args.deployment_name}.template.json'
+output_fn = f'{argDeploymentName}.template.json'
 print(f'[INFO] Saving deployment manifest template to {output_fn}')
 with open(output_fn, 'w') as f:
     json.dump(base_manifest, f, indent=4)

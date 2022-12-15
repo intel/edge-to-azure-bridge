@@ -6,7 +6,7 @@
         "restartPolicy": "always",
         "env": { },
         "settings": {
-            "image": "edge_to_azure_bridge:latest",
+            "image": "${DOCKER_REGISTRY}intel/edge_to_azure_bridge:4.0.0",
             "createOptions": {
                 "User": "${EII_UID}",
                 "Env": [

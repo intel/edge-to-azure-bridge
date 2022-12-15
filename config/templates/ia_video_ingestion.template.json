@@ -5,7 +5,7 @@
         "status": "running",
         "restartPolicy": "always",
         "settings": {
-            "image": "${DOCKER_REGISTRY}openedgeinsights/ia_video_ingestion:$EII_VERSION",
+            "image": "${DOCKER_REGISTRY}edgeinsights/ia_video_ingestion:$EII_VERSION",
             "createOptions": {
                 "Hostname": "ia_video_ingestion",
                 "Env": [
@@ -48,7 +48,6 @@
                         "/var/tmp:/var/tmp:rw",
                         "/tmp:/tmp:rw",
                         "/run/udev:/run/udev:ro",
-                        "$EII_CERTIFICATES/rootca:/run/secrets/rootca",
                         "$EII_CERTIFICATES/VideoIngestion:/run/secrets/VideoIngestion"
                     ],
                     "LogConfig": {

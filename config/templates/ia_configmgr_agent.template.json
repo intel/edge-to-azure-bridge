@@ -5,13 +5,14 @@
         "status": "running",
         "restartPolicy": "always",
         "settings": {
-            "image": "${DOCKER_REGISTRY}openedgeinsights/ia_configmgr_agent:$EII_VERSION",
+            "image": "${DOCKER_REGISTRY}edgeinsights/ia_configmgr_agent:$EII_VERSION",
             "createOptions": {
                 "Hostname": "ia_configmgr_agent",
                 "Env": [
                     "SERVICES=VideoIngestion,VideoAnalytics,EdgeToAzureBridge,EdgeVideoAnalyticsMicroservice",
                     "AppName=ConfigMgrAgent",
                     "HOST_IP=$HOST_IP",
+                    "EII_INSTALL_PATH=$EII_INSTALL_PATH",
                     "ETCDCTL_API=3",
                     "SOCKET_DIR=$SOCKET_DIR",
                     "DEV_MODE=$DEV_MODE",
@@ -21,6 +22,7 @@
                     "ETCD_PEER_PORT=$ETCD_PEER_PORT",
                     "ETCD_NAME=$ETCD_NAME",
                     "ETCD_PREFIX=$ETCD_PREFIX",
+                    "EII_USER_NAME=$EII_USER_NAME",
                     "ETCDROOT_PASSWORD"
                 ],
                 "ExposedPorts": {
@@ -46,6 +48,7 @@
                         "$EII_INSTALL_PATH/sockets:$SOCKET_DIR",
                         "$EII_INSTALL_PATH/data/etcd:$ETCD_DATA_DIR/etcd_capture",
                         "$EII_INSTALL_PATH:$EII_INSTALL_PATH",
+                        "$EII_INSTALL_PATH/models/:/app/models/",
                         "$EII_INSTALL_PATH/data:/data"
                     ],
                     "LogConfig": {

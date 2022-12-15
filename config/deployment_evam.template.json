@@ -5,7 +5,7 @@
                 "modules": {
                     "EdgeVideoAnalyticsMicroservice": {
                         "settings": {
-                            "image": "intel/edge_video_analytics_microservice:0.7.0",
+                            "image": "intel/edge_video_analytics_microservice:latest",
                             "createOptions": "{\"ExposedPorts\":{\"8080/tcp\":{},\"8554/tcp\":{}},\"HostConfig\":{\"Binds\":[\"EVAM_RESOURCES/models:/app/models\",\"EVAM_RESOURCES/pipelines:/app/pipelines\",\"EVAM_RESOURCES/resources:/app/resources\",\"/tmp/:/tmp/\"],\"PortBindings\":{\"8080/tcp\":[{\"HostPort\":\"8080\"}],\"8554/tcp\":[{\"HostPort\":\"8554\"}]}}}"
                         },
                         "type": "docker",

@@ -1,4 +1,4 @@
-# Copyright (c) 2021 Intel Corporation.
+# Copyright 2022 Intel Corporation.
 
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -25,17 +25,20 @@ ARG EII_USER_NAME
 
 # Setting python dev env
 RUN apt-get update && \
-    apt-get install -y --no-install-recommends python3-pip && \
+    apt-get install -y --no-install-recommends \ 
+    python3-pip=20.0.2-5ubuntu1.6 && \
+    rm -rf /var/lib/apt/lists/* && \
     ln -sf /usr/bin/pip3 /usr/bin/pip && \
-    python3 -m pip install -U pip
+    python3 -m pip install --no-cache-dir -U pip==21.2.4
 
 WORKDIR /app
 
-RUN useradd -r -u ${EII_UID} ${EII_USER_NAME}
+RUN useradd -l -r -u ${EII_UID} ${EII_USER_NAME}
 
 COPY requirements.txt ./
 
-RUN python3 -m pip install -r requirements.txt
+RUN python3 -m pip install --no-cache-dir -r requirements.txt && \
+    apt-get remove --purge -y python-pip-whl
 
 COPY . .
 

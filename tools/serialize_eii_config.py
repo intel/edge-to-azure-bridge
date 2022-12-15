@@ -33,11 +33,21 @@ ap.add_argument('manifest', help='Azure manifest template')
 ap.add_argument('config', help='EII pre-load configuration path')
 args = ap.parse_args()
 
+# Verify arguments (Prevent path traversal per Checkmarx recommendation)
+if not isinstance(args.config, str):
+    raise AssertionError('{} is not a path string'.format(args.config))
+else:
+    argConfig = args.config
+if not isinstance(args.manifest, str):
+    raise AssertionError('{} is not a path string'.format(args.manifest))
+else:
+    argManifest = args.manifest
+
 # Verify the input files exist
-if not os.path.exists(args.config):
-    raise AssertionError('{} does not exist'.format(args.config))
-if not os.path.exists(args.manifest):
-    raise AssertionError('{} does not exist'.format(args.manifest))
+if not os.path.exists(argConfig):
+    raise AssertionError('{} does not exist'.format(argConfig))
+if not os.path.exists(argManifest):
+    raise AssertionError('{} does not exist'.format(argManifest))
 
 print('[INFO] Populating EII configuration into Azure manifest')
 
@@ -51,10 +61,10 @@ def is_safe_path(basedir, path, follow_symlinks=True):
     return basedir == os.path.commonpath((basedir, matchpath))
 
 # Load JSON files
-with open(args.config, 'r') as f:
+with open(argConfig, 'r') as f:
     config = json.load(f)
 
-with open(args.manifest, 'r') as f:
+with open(argManifest, 'r') as f:
     manifest = json.load(f)
 
 # Serialize and populate the manifest
@@ -62,8 +72,8 @@ config_str = json.dumps(config)
 eii_azure_bridge = manifest['modulesContent']['edge_to_azure_bridge']
 eii_azure_bridge['properties.desired']['eii_config'] = config_str
 
-if is_safe_path(os.getcwd(), args.manifest):
-    with open(args.manifest, 'w') as f:
+if is_safe_path(os.getcwd(), argManifest):
+    with open(argManifest, 'w') as f:
         json.dump(manifest, f, indent=4)
 
 print('[INFO] Azure manifest populated')

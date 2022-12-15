@@ -5,7 +5,7 @@
         "status": "running",
         "restartPolicy": "always",
         "settings": {
-            "image": "${DOCKER_REGISTRY}openedgeinsights/ia_video_analytics:$EII_VERSION",
+            "image": "${DOCKER_REGISTRY}edgeinsights/ia_video_analytics:$EII_VERSION",
             "createOptions": {
                 "Hostname": "ia_video_analytics",
                 "Env": [
@@ -44,7 +44,6 @@
                         "$EII_INSTALL_PATH/sockets:/EII/sockets:rw",
                         "/var/tmp:/var/tmp:rw",
                         "/tmp:/tmp:rw",
-                        "$EII_CERTIFICATES/rootca:/run/secrets/rootca",
                         "$EII_CERTIFICATES/VideoAnalytics:/run/secrets/VideoAnalytics"
                     ],
                     "LogConfig": {

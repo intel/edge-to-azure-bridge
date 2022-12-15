@@ -24,7 +24,21 @@ version: '3.6'
 services:
     # Edge-to-Cloud Bridge for Microsoft Azure* service
     edge_to_azure_bridge:
-        image: edge_to_azure_bridge:latest
+        read_only: true
+        build:
+            context: $PWD/modules/EdgeToAzureBridge/
+            dockerfile: $PWD/modules/EdgeToAzureBridge/Dockerfile
+            args:
+                  no_proxy: ${eii_no_proxy}
+                  EII_VERSION: ${EII_VERSION}
+                  EII_UID: ${EII_UID}
+                  EII_USER_NAME: ${EII_USER_NAME}
+                  EII_SOCKET_DIR: ${SOCKET_DIR}
+                  UBUNTU_IMAGE_VERSION: ${UBUNTU_IMAGE_VERSION}
+                  CMAKE_INSTALL_PREFIX: ${EII_INSTALL_PATH}
+                  PYTHON_VERSION: ${PYTHON_VERSION}
+                  PKG_SRC: "https://github.com/open-edge-insights/eii-manifests/releases/download/v3.0"
+        image: ${DOCKER_REGISTRY}intel/edge_to_azure_bridge:4.0.0
         ipc: "none"
         security_opt:
         - no-new-privileges
@@ -40,10 +54,11 @@ services:
 
     # Simple subscriber service to land on the Azure IoT Edge Runtime
     ia_azure_simple_subscriber:
-        image: ${DOCKER_REGISTRY}openedgeinsights/ia_azure_simple_subscriber:${EII_VERSION}
+        read_only: true
+        image: ${DOCKER_REGISTRY}edgeinsights/ia_azure_simple_subscriber:${EII_VERSION}
         build:
-            context: $PWD/../EdgeToAzureBridge/modules/SimpleSubscriber/
-            dockerfile: $PWD/../EdgeToAzureBridge/modules/SimpleSubscriber/Dockerfile
+            context: $PWD/modules/SimpleSubscriber/
+            dockerfile: $PWD/modules/SimpleSubscriber/Dockerfile
             args:
                 EII_VERSION: ${EII_VERSION}
                 DOCKER_REGISTRY: ${DOCKER_REGISTRY}
@@ -58,3 +73,7 @@ services:
           interval: 5m
         networks:
           - eii
+
+networks:
+  eii:
+    driver: bridge

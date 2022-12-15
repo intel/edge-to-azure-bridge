@@ -48,7 +48,8 @@ async def config_listener(bs):
         except AssertionError as ex:
             log.error(f'Invalid twin: {ex}')
         except Exception as ex:
-            log.error(f'Unexpected error: {ex},\n{tb.format_exc()}')
+            #log.error(f'Unexpected error: {ex},\n{tb.format_exc()}')
+            log.error(f'[ERROR] Critical Error has occured in bridge module, ending connection')
 
 
 def find_root_changes(orig, new):
