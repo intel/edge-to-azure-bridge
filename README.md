@@ -266,3 +266,7 @@ az iot hub monitor-events --output table --device-id <Device ID> --hub-name <IoT
 ```
 
 >To learn more about Azure IoT Hub visit this [link.](https://azure.microsoft.com/en-in/services/iot-hub/)
+
+
+# Licensing Info
+The code in this repository is MIT-licensed. More information can be found in the license file. This project uses Intel EII libraries during building, which are not MIT-licensed. See those libraries' details for information on their licensing and conditions.
