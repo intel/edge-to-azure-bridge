@@ -26,7 +26,7 @@ ARG EII_USER_NAME
 # Setting python dev env
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \ 
-    python3-pip=20.0.2-5ubuntu1.6 && \
+    python3-pip && \
     rm -rf /var/lib/apt/lists/* && \
     ln -sf /usr/bin/pip3 /usr/bin/pip && \
     python3 -m pip install --no-cache-dir -U pip==21.2.4
